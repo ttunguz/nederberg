@@ -6,17 +6,12 @@
 
 {{ define "main" }}
   {{ $scratch := newScratch }}
-  {{ if .Site.Params.writers }}
-    {{ $scratch.Set "writer" (index .Site.Params.writers (lower .Params.writer) | default dict) }}
-  {{ else }}
-    {{ $scratch.Set "writer" .Site.Params.social | default dict }}
-  {{ end }}
   {{ $writer := $scratch.Get "writer" }}
   <div id="loop-container" class="loop-container">
     {{ if and (isset .Params "image") .Params.image }}
     <div class="post type-post status-publish format-standard has-post-thumbnail hentry category-design tag-design tag-standard-2 tag-tagalicious tag-travel entry full-without-featured odd excerpt-1">
 
-      <div class='featured-image lazy lazy-bg-image' {{ if isset .Site.Params "usepostimgfolder" }} data-background="{{ .Permalink }}{{ .Params.image }}"{{ else }} data-background="{{ .Params.image | absURL }}"{{ end }}>
+      <div class='featured-image lazy lazy-bg-image' {{ if isset .Site.Params "usepostimgfolder" }} data-background="{{ .Site.Params.cloudinary_url }}{{ .Params.image }}"{{ else }} data-background="https://res.cloudinary.com/dzawgnnlr/image/upload/q_auto/f_auto/w_auto/v1553469372/{{ .Params.image }}"{{ end }}>
       </div>
       {{ else }}
 
@@ -74,12 +69,6 @@
 
 
 
-<div class="entry-tags"><p><span>Tags</span>
-  {{ range $index, $name := .Params.tags }}
-  <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" title="View all posts tagged {{ $name }}">{{ $name }}</a>
-  {{ end }}
-
-</p></div>	</div>
 
 	{{ if and (isset .Site.Params "author") .Site.Params.author }}
 <div class="author-meta">
